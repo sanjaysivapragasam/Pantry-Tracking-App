@@ -28,8 +28,6 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
-firebase.js
-openaiService.js
 # vercel
 .vercel
 
