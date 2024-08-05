@@ -16,7 +16,6 @@ import {
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Icon } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -116,7 +115,7 @@ export default function Home() {
   // we only need to update once page loads
   useEffect(() => {
     updateInventory();
-  }, []);
+  }, [updateInventory]);
 
   const addItem = async (item) => {
     if (!user) return;

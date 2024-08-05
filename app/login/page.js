@@ -11,7 +11,6 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import Image from 'next/image'
 
-import { Icon } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 export default function LoginPage() {
@@ -97,7 +96,7 @@ export default function LoginPage() {
                     >
                         <ManageAccountsIcon fontSize="large" style={{ color: '#663399', marginBottom: '10px' }} />
                         <Typography variant="h6" color="#663399">
-                            You're The Manager
+                            You Are The Manager
                         </Typography>
                         <Typography variant="h8" color="#663399">
                             Effectively manage your inventory with precise quantities.
@@ -194,9 +193,3 @@ export default function LoginPage() {
         </Box>
     )
 }
-
-
-
-/* <Typography variant="body2" sx={{ color: '#ffffff' }}>
-                    © {new Date().getFullYear()} Sanjay Sivapragasam
-                </Typography> */
