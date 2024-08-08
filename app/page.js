@@ -18,12 +18,13 @@ import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { useRouter } from "next/navigation";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from "next/image";
 import {
   collection,
   doc,
   getDocs,
-  query,
   setDoc,
   deleteDoc,
   getDoc,
@@ -36,7 +37,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  
   bgcolor: "white",
   border: "2px solid #000",
   boxShadow: 24,
@@ -47,8 +48,6 @@ const style = {
 };
 
 export default function Home() {
-  
-
   // inventory management helper functions and state variables
   const [user, setUser] = useState(null); // user state to track authenticated user
   const [inventory, setInventory] = useState([]);
@@ -57,6 +56,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState(""); // search query state
   const [isFirebaseReady, setIsFirebaseReady] = useState(false);
   const router = useRouter();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     const checkFirebase = async () => {
@@ -162,9 +163,10 @@ export default function Home() {
   if (!isFirebaseReady) {
     return (
       <Box
-        width="100vw"
-        height="100vh"
+        width="100vw" // size of display's width
+        height="100vh" // size of display's height
         display="flex"
+        //flexDirection = "column"
         justifyContent="center"
         alignItems="center"
         bgcolor="#9370db"
@@ -179,17 +181,19 @@ export default function Home() {
 
   return (
     <Box
-      width="100vw"
-      height="100%"
+      width="100%"
+      height="100vh"
       display={"flex"}
-      justifyContent={"center"}
+      // justifyContent={"center"}
       flexDirection={"column"}
       alignItems={"center"}
       gap={2}
+      overflow = {"auto"}
       sx={{
         backgroundColor: "#9370db", // Change to your desired background color
         color: "#ffffff", // Default text color
         position: "relative", // Add this to allow absolute positioning of children
+        padding: theme.spacing(2),
       }}
     >
       <Modal
@@ -197,8 +201,10 @@ export default function Home() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        
       >
-        <Box sx={style}>
+        
+        <Box sx={style} width = {isMobile ? "70%": "45%"}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Item
           </Typography>
@@ -227,14 +233,24 @@ export default function Home() {
 
       {user && (
         <>
-          <Box display="flex" alignItems="center" gap={2}>
+          {/* if its a mobile device, list elements going downward (column), otherwise we list elements in a row */}
+          <Box
+            display="flex"
+            alignItems="center"
+            flexDirection={isMobile ? "column" : "row"}
+            gap={2}
+          >
             <Image
               src="/images/Pantry Planner Logo.png" // Update this path to match your image location
               alt="Pantry Planner Logo"
-              width={120} // Adjust the size as needed
-              height={120} // Adjust the size as needed
+              width={isMobile ? 50 : 120}
+              height={isMobile ? 50 : 120}
             />
-            <Typography variant="h1">Pantry Planner</Typography>
+
+            <Typography variant={isMobile ? "h4" : "h1"}>
+              {" "}
+              Pantry Planner{" "}
+            </Typography>
           </Box>
 
           {/* <Typography variant="h4">Inventory made simple.</Typography> */}
@@ -243,12 +259,16 @@ export default function Home() {
           <Box
             display="flex"
             alignItems="center"
-            gap={3} // Space between items
+            justifyContent={"center"}
+            flexDirection={isMobile ? "column" : "row"}
+            gap={2} // Space between items
             mb={2} // Margin bottom
+            width="100%"
           >
             <Button
               variant="contained"
               onClick={handleOpen}
+              fullWidth={isMobile}
               sx={{
                 backgroundColor: "#ffffff",
                 color: "#9370db",
@@ -264,10 +284,12 @@ export default function Home() {
               variant="outlined"
               label="Search Inventory"
               value={searchQuery}
+              justifyContent = "center"
               onChange={(e) => setSearchQuery(e.target.value)}
+              fullWidth={isMobile}
               sx={{
-                width: "300px",
-                margin: "0",
+                width: isMobile ? "100%" : "300px",
+                margin: isMobile ? "10px 0" : "0",
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "4px",
                   "& fieldset": {
@@ -295,6 +317,7 @@ export default function Home() {
             <Button
               variant="contained"
               onClick={() => auth.signOut()}
+              fullWidth={isMobile}
               sx={{
                 backgroundColor: "#ffffff",
                 color: "#9370db",
@@ -307,11 +330,15 @@ export default function Home() {
             </Button>
           </Box>
 
-
           {user && (
-            <Box border={"2px solid #ffffff"} mb={4}>
+            <Box
+              border={"2px solid #ffffff"}
+              mb={1}
+              width="100%"
+              maxWidth="800px"
+            >
               <Box
-                width="800px"
+                width="100%"
                 height="100px"
                 bgcolor={"#663399"}
                 display={"flex"}
@@ -319,37 +346,44 @@ export default function Home() {
                 alignItems={"center"}
               >
                 <Typography
-                  variant={"h2"}
+                  variant={isMobile ? "h5" : "h3"}
                   color={"#ffffff"}
                   textAlign={"center"}
                 >
                   Inventory Items
                 </Typography>
               </Box>
-              <Stack width="800px" height="300px" spacing={2} overflow={"auto"}>
+
+              <Stack width="100%" height="300px" spacing={2} overflow={"auto"}>
                 {filteredInventory.map(({ id, quantity }) => (
                   <Box
                     key={id}
                     width="100%"
                     minHeight="150px"
                     display={"flex"}
+                    flexDirection={isMobile ? "column" : "row"}
                     justifyContent={"space-between"}
                     alignItems={"center"}
                     colour={"#9370db"}
                     bgcolor={"#ffffff"}
-                    paddingX={5}
+                    paddingX={2}
                   >
-                    <Box width="40%" overflow="hidden" textOverflow="ellipsis">
-                      <Typography variant={"h4"} color={"#663399"} noWrap>
+                    <Box
+                      width={isMobile ? "100%" : "40%"}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      mb={isMobile ? 2 : 0}
+                    >
+                      <Typography variant={isMobile ? "h5" : "h4"} color={"#663399"} noWrap>
                         {id.charAt(0).toUpperCase() + id.slice(1)}
                       </Typography>
                     </Box>
                     <Box
                       display="flex"
                       alignItems="center"
-                      justifyContent="flex-end"
-                      pr={2}
-                      width="60%"
+                      justifyContent={isMobile ? "space-between" : "flex-end"}
+                      width={isMobile ? "100%" : "60%"}
+                      //pr={2}
                     >
                       <Button
                         variant="contained"
@@ -364,7 +398,7 @@ export default function Home() {
                         -
                       </Button>
                       <Typography
-                        variant={"h4"}
+                        variant={"h5"}
                         color={"#663399"}
                         sx={{
                           margin: "0 20px",
@@ -393,16 +427,17 @@ export default function Home() {
             </Box>
           )}
 
-          {/* Add the OpenAIComponent here */}
           <Box
-            width="800px"
+            width="100%"
+            maxWidth="800px"
             border={"2px solid #ffffff"}
             bgcolor={"#ffffff"}
             p={3}
             borderRadius={2}
-            mb={20}
+            mb={0}
+            mt = {0}
           >
-            <OpenAIComponent inventory = {inventory}/>
+            <OpenAIComponent inventory={inventory} />
           </Box>
         </>
       )}
@@ -411,11 +446,10 @@ export default function Home() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        mb={2}
-        left={0}
-        right={0}
-        bottom={0}
-        position="absolute"
+        mt={1}
+        mb={1}
+       // overflow = {"auto"}
+        width="100%"
       >
         <Box display="flex" justifyContent="center" gap={2}>
           <a
