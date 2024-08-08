@@ -17,6 +17,7 @@ const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_LLAMA_KEY,
   dangerouslyAllowBrowser: true,
   defaultHeaders: {
+   // "Content-Type": "application/json",
     //"HTTP-Referer": $YOUR_SITE_URL, // Optional, for including your app on openrouter.ai rankings.
     //"X-Title": $YOUR_SITE_NAME, // Optional. Shows in rankings on openrouter.ai.
   },
@@ -37,7 +38,24 @@ export const getOpenAIResponse = async (prompt) => {
     ],
   });
 
-  console.log(completion.choices[0].message);
+  const generatedText = completion.choices[0].message.content;
+
+  // Split the generated text into sections
+  const sections = generatedText.split("\n\n");
+
+  // Extract the recipe name, ingredients, and instructions
+  const recipeName = sections[0].trim();
+  const ingredientsSection = sections[1].replace("Ingredients:", "").trim();
+  const instructionsSection = sections[2].replace("Instructions:", "").trim();
+
+  // Split the ingredients into an array
+  const ingredients = ingredientsSection.split(",").map((item) => item.trim());
+
+  return {
+    recipeName,
+    ingredients,
+    instructions: instructionsSection,
+  };
 };
 
 //   try {
