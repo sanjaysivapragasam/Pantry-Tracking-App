@@ -22,9 +22,10 @@ const OpenAIComponent = ({ inventory }) => {
     setError("");
     try {
       const ingredients = inventory
+        //.map((item) => `${item.id} (${item.quantity})`)
         .map((item) => `${item.id} (${item.quantity})`)
         .join(", ");
-      const prompt = `Generate a recipe using some or all of these ingredients: ${ingredients}. Please provide the recipe name, ingredients used (with quantities), and brief instructions.`;
+      const prompt = `Generate a recipe using some or all of these ingredients: ${ingredients}. It is okay to not use all ingredients, as the user wants simple and easy recipes that taste good. Please provide the recipe name, ingredients used (with quantities), and brief instructions.`;
 
       const aiResponse = await getOpenAIResponse(prompt);
       setResponse(aiResponse);
