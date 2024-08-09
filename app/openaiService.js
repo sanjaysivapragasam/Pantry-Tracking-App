@@ -27,7 +27,6 @@ const openai = new OpenAI({
 
 export const getOpenAIResponse = async (prompt) => {
 
-  //console.log (prompt);
   const completion = await openai.chat.completions.create({
     model: "meta-llama/llama-3.1-8b-instruct:free",
     messages: [
@@ -36,26 +35,46 @@ export const getOpenAIResponse = async (prompt) => {
         content: prompt,
       },
     ],
+    max_tokens: 131072, // Adjust as necessary
   });
 
   const generatedText = completion.choices[0].message.content;
+  console.log(generatedText);
 
-  // Split the generated text into sections
-  const sections = generatedText.split("\n\n");
+// Use regex to extract sections
+const recipeNameMatch = generatedText.match(/Recipe Name:\s*(.*)/);
+const ingredientsMatch = generatedText.match(/Ingredients:\s*([\s\S]*?)(?=Instructions:|$)/i);
+const instructionsMatch = generatedText.match(/Instructions:\s*([\s\S]*$)/i);
 
-  // Extract the recipe name, ingredients, and instructions
-  const recipeName = sections[0].trim();
-  const ingredientsSection = sections[1].replace("Ingredients:", "").trim();
-  const instructionsSection = sections[2].replace("Instructions:", "").trim();
+const recipeName = recipeNameMatch ? recipeNameMatch[1].trim() : "Unnamed Recipe";
+  const ingredients = ingredientsMatch
+    ? ingredientsMatch[1].split(/,|\n/).map((item) => item.trim()).filter(Boolean)
+    : [];
+  const instructions = instructionsMatch ? instructionsMatch[1].trim() : "No instructions provided";
 
-  // Split the ingredients into an array
-  const ingredients = ingredientsSection.split(",").map((item) => item.trim());
+return {
+  recipeName,
+  ingredients,
+  instructions,
+};
 
-  return {
-    recipeName,
-    ingredients,
-    instructions: instructionsSection,
-  };
+
+  // // Split the generated text into sections
+  // const sections = generatedText.split("\n\n");
+
+  // // Extract the recipe name, ingredients, and instructions
+  // const recipeName = sections[0].trim();
+  // const ingredientsSection = sections[1].replace("Ingredients:", "").trim();
+  // const instructionsSection = sections[2].replace("Instructions:", "").trim();
+
+  // // Split the ingredients into an array
+  // const ingredients = ingredientsSection.split(",").map((item) => item.trim());
+
+  // return {
+  //   recipeName,
+  //   ingredients,
+  //   instructions: instructionsSection,
+  // };
 };
 
 //   try {
