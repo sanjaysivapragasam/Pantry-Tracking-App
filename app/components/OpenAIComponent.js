@@ -29,7 +29,8 @@ const OpenAIComponent = ({ inventory }) => {
 Please provide the recipe in the following format:
 1. Recipe Name: [Recipe Name]
 2. Ingredients: [List of ingredients with quantities, separated by commas]
-3. Instructions: [Step-by-step instructions in a numbered list]`;
+3. Instructions: [Step-by-step instructions in a numbered list]
+Please format the answer in a simple, clean format.`;
 
       //const prompt = `Generate only 1 recipe with preparation/cooking instructions, and quantities using some of these ingredients: ${ingredients}. `;
       // It is okay to not use all ingredients, as the user wants simple and easy recipes that taste good. Please provide the recipe name, ingredients used (with quantities), and brief instructions. Please format the response in a clear, easy-to-read manner.
