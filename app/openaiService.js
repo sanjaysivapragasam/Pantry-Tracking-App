@@ -42,21 +42,24 @@ export const getOpenAIResponse = async (prompt) => {
   console.log(generatedText);
 
 // Use regex to extract sections
-const recipeNameMatch = generatedText.match(/Recipe Name:\s*(.*)/);
-const ingredientsMatch = generatedText.match(/Ingredients:\s*([\s\S]*?)(?=Instructions:|$)/i);
-const instructionsMatch = generatedText.match(/Instructions:\s*([\s\S]*$)/i);
+// const recipeNameMatch = generatedText.match(/Recipe Name:\s*(.*)/);
+// const ingredientsMatch = generatedText.match(/Ingredients:\s*([\s\S]*?)(?=Instructions:|$)/i);
+// const instructionsMatch = generatedText.match(/Instructions:\s*([\s\S]*$)/i);
 
-const recipeName = recipeNameMatch ? recipeNameMatch[1].trim() : "Unnamed Recipe";
-  const ingredients = ingredientsMatch
-    ? ingredientsMatch[1].split(/,|\n/).map((item) => item.trim()).filter(Boolean)
-    : [];
-  const instructions = instructionsMatch ? instructionsMatch[1].trim() : "No instructions provided";
+// const recipeName = recipeNameMatch ? recipeNameMatch[1].trim() : "Unnamed Recipe";
+//   const ingredients = ingredientsMatch
+//     ? ingredientsMatch[1].split(/,|\n/).map((item) => item.trim()).filter(Boolean)
+//     : [];
+//   const instructions = instructionsMatch ? instructionsMatch[1].trim() : "No instructions provided";
 
-return {
-  recipeName,
-  ingredients,
-  instructions,
-};
+
+return generatedText;
+// return {
+//   generatedText,
+//   // recipeName,
+//   // ingredients,
+//   // instructions,
+// };
 
 
   // // Split the generated text into sections

@@ -6,7 +6,6 @@ import {
   Button,
   CircularProgress,
   Alert,
-  error,
 } from "@mui/material";
 
 const OpenAIComponent = ({ inventory }) => {
@@ -36,12 +35,15 @@ Please format the answer in a simple, clean format.`;
       // It is okay to not use all ingredients, as the user wants simple and easy recipes that taste good. Please provide the recipe name, ingredients used (with quantities), and brief instructions. Please format the response in a clear, easy-to-read manner.
       // const aiResponse = await getOpenAIResponse(prompt);
       // setResponse(aiResponse);
-      const {
-        recipeName,
-        ingredients: recipeIngredients,
-        instructions,
-      } = await getOpenAIResponse(prompt);
-      setResponse({ recipeName, ingredients: recipeIngredients, instructions });
+
+      const aiResponse = await getOpenAIResponse(prompt);
+      setResponse(aiResponse);
+      // const {
+      //   recipeName,
+      //   ingredients: recipeIngredients,
+      //   instructions,
+      // } = await getOpenAIResponse(prompt);
+      // setResponse({ recipeName, ingredients: recipeIngredients, instructions });
     } catch (err) {
       if (
         err.message.includes("429") &&
@@ -88,7 +90,21 @@ Please format the answer in a simple, clean format.`;
           {error}
         </Alert>
       )}
+
       {response && (
+        <Box mt={3}>
+          <Typography
+            variant="body1"
+            color="#663399"
+            component="div"
+            whiteSpace="pre-wrap"
+          >
+            {response}
+          </Typography>
+        </Box>
+      )}
+
+      {/* {response && (
         <Box mt={3}>
           <Typography variant="h6" color="#663399" gutterBottom>
             {response.recipeName}
@@ -109,19 +125,17 @@ Please format the answer in a simple, clean format.`;
           <ol>
             {response.instructions.split('\n').map((instruction, index) => (
               <li key={index} style={{ color: "#663399" }}>
-                {instruction.replace(/^\d+\.\s*/, '')}
+                {instruction}
               </li>
             ))}
           </ol>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 };
 
 export default OpenAIComponent;
-
-
 
 //   return (
 //     <Box

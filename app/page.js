@@ -429,7 +429,7 @@ export default function Home() {
 
           <Box
             width="100%"
-            maxWidth="100%"
+            maxWidth="800px"
             border={"2px solid #ffffff"}
             bgcolor={"#ffffff"}
             p={3}
