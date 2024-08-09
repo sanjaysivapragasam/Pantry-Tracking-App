@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { auth, provider } from "@/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Box, Typography, Button, Container, IconButton } from "@mui/material";
+import { Box, Typography, Button, IconButton } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 export default function LoginPage() {
   const [user, setUser] = useState(null);
@@ -141,7 +142,7 @@ export default function LoginPage() {
               You Are The Manager
             </Typography>
             <Typography variant="h8" color="#663399">
-              Effectively manage your inventory with precise quantities.
+              Effectively manage your inventory with precise quantities and seamlessly add new items.
             </Typography>
           </Box>
           <Box
@@ -178,15 +179,15 @@ export default function LoginPage() {
             alignItems="center"
             textAlign="center"
           >
-            <PersonAddAlt1Icon
+            <AutoAwesomeIcon
               fontSize="large"
               style={{ color: "#663399", marginBottom: "10px" }}
             />
             <Typography variant="h6" color="#663399">
-              Add Items
+              AI Generated Recipes
             </Typography>
             <Typography variant="h8" color="#663399">
-              Seamlessly add new items to your inventory list.
+              Discover unique and tasty recipes based on your kitchen pantry.
             </Typography>
           </Box>
         </Box>
