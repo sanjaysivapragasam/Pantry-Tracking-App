@@ -32,6 +32,7 @@ import {
 // importing OpenAI
 import OpenAIComponent from "./components/OpenAIComponent";
 
+
 const style = {
   position: "absolute",
   top: "50%",
